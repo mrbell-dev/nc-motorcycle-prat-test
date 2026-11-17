@@ -3,6 +3,7 @@
 A phone-friendly practice quiz for the North Carolina motorcycle knowledge test.
 
 - 261 multiple-choice questions, each tied to a page in the NC Motorcyclists' Handbook (13th edition, the version NCDMV links) or the NCDMV Motorcycle & Moped page
+- Answer choices are close in length and include a near-miss that would be right in a different situation, so length doesn't give the answer away; their order changes every time
 - Questions sorted by the handbook's own sections and subsections, with a filter for each
 - After every answer: why the right answer is right and why each wrong choice is wrong, plus an optional hint before you answer
 - Mock test (25 questions), new-questions-only mode, review of missed questions and a drill of your weakest topics
