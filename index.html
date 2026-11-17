@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>NC Motorcycle Knowledge Prep</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap">
+<style>
+/* Layout: one-column phone-first study card, highway-sign type, amber sign yellow accent on asphalt-tinted neutrals */
+:root{
+  --bg:#f3f4f2; --surface:#ffffff; --fg:#1d2126; --muted:#5d6670; --line:#d9ddd8;
+  --accent:#f2b705; --accent-ink:#1d2126; --sign:#1f5f45;
+  --good:#1e7a46; --good-bg:#e3f3e9; --bad:#b3261e; --bad-bg:#fbe7e5;
+  --road:#c9cdc8; --paint:#ffffff; --car:#5f6b78; --bike:#d18a00; --rail:#6b4f2a;
+  --display:"Barlow Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"Barlow",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#15181b; --surface:#1f2327; --fg:#eceeec; --muted:#a1a9b1; --line:#343a40;
+  --accent:#f5c21b; --accent-ink:#15181b; --sign:#4fb386;
+  --good:#5fd08f; --good-bg:#16301f; --bad:#ff8a80; --bad-bg:#3a1c1a;
+  --road:#30363c; --paint:#d9dcd8; --car:#8c98a5; --bike:#f5c21b; --rail:#c49a5e; color-scheme:dark }}
+:root[data-theme="dark"]{
+  --bg:#15181b; --surface:#1f2327; --fg:#eceeec; --muted:#a1a9b1; --line:#343a40;
+  --accent:#f5c21b; --accent-ink:#15181b; --sign:#4fb386;
+  --good:#5fd08f; --good-bg:#16301f; --bad:#ff8a80; --bad-bg:#3a1c1a;
+  --road:#30363c; --paint:#d9dcd8; --car:#8c98a5; --bike:#f5c21b; --rail:#c49a5e; color-scheme:dark }
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:17px;line-height:1.45;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:16px 40px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1,h2{font-family:var(--display);font-weight:700;letter-spacing:.01em;text-wrap:balance;margin:0}
+h1{font-size:32px;line-height:1.05}
+h2{font-size:22px;margin-top:6px}
+.tag{display:inline-block;font-family:var(--display);font-weight:600;font-size:14px;letter-spacing:.08em;text-transform:uppercase;
+  background:var(--sign);color:#fff;padding:3px 8px;border-radius:4px}
+.tag.weak{background:var(--accent);color:var(--accent-ink)}
+.lede{color:var(--muted);margin:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px}
+.modes{display:flex;flex-direction:column;gap:10px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+button{font:inherit;color:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent}
+button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.mode{display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;width:100%;min-height:64px;min-width:0;
+  background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+.mode strong{font-family:var(--display);font-size:21px;font-weight:700;line-height:1.1}
+.mode span{color:var(--muted);font-size:15px}
+.mode.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.mode.primary span{color:var(--accent-ink);opacity:.8}
+.mode.full{grid-column:1/-1;border-color:var(--accent);border-width:2px}
+.mode:disabled{opacity:.45;cursor:default}
+.note{font-size:14px;color:var(--muted);margin:0}
+.bar{display:flex;align-items:center;justify-content:space-between;gap:12px;font-family:var(--display);font-size:18px;font-variant-numeric:tabular-nums}
+.bar .quit{background:none;border:1px solid var(--line);border-radius:8px;padding:6px 12px;font-size:16px;min-height:40px}
+.progress{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
+.progress i{display:block;height:100%;background:var(--accent);width:0;transition:width .25s}
+.q{font-size:20px;font-weight:600;line-height:1.35;margin:10px 0 0}
+.fig{margin:14px 0 0;background:var(--bg);border-radius:10px;padding:8px}
+.fig svg{display:block;width:100%;height:auto;max-width:100%}
+.fig figcaption{font-size:14px;color:var(--muted);margin-top:6px;padding:0 4px}
+svg text{font-family:var(--body);font-size:13px;fill:var(--fg)}
+svg .road{fill:var(--road)} svg .paint{stroke:var(--paint);stroke-width:3;fill:none}
+svg .dash{stroke:var(--paint);stroke-width:3;stroke-dasharray:10 9;fill:none}
+svg .guide{stroke:var(--muted);stroke-width:1.5;stroke-dasharray:3 5;fill:none}
+svg .car{fill:var(--car)} svg .bike{fill:var(--bike)} svg .rail{stroke:var(--rail);stroke-width:4;fill:none}
+svg .path{stroke:var(--bike);stroke-width:4;fill:none;stroke-linecap:round}
+svg .good{stroke:var(--good);stroke-width:4;fill:none;stroke-linecap:round}
+svg .bad{stroke:var(--bad);stroke-width:3;fill:none;stroke-dasharray:6 6;stroke-linecap:round}
+svg .fillgood{fill:var(--good)} svg .fillbad{fill:var(--bad)} svg .fillbike{fill:var(--bike)}
+svg .tick{stroke:var(--fg);stroke-width:1.5;fill:none}
+.answers{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.ans{display:flex;gap:12px;align-items:flex-start;text-align:left;width:100%;min-height:56px;padding:14px;
+  background:var(--bg);border:2px solid var(--line);border-radius:10px;font-size:17px}
+.ans b{font-family:var(--display);font-size:18px;min-width:18px;color:var(--muted)}
+.ans.right{border-color:var(--good);background:var(--good-bg)}
+.ans.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.ans:disabled{cursor:default}
+.ans.dim{opacity:.6}
+.fb{margin-top:14px;padding:12px 14px;border-radius:10px;font-size:16px}
+.fb.right{background:var(--good-bg);color:var(--fg);border-left:4px solid var(--good)}
+.fb.wrong{background:var(--bad-bg);color:var(--fg);border-left:4px solid var(--bad)}
+.fb strong{display:block;font-family:var(--display);font-size:19px;margin-bottom:2px}
+.fb.right strong{color:var(--good)} .fb.wrong strong{color:var(--bad)}
+.next{margin-top:14px;width:100%;min-height:56px;border:0;border-radius:10px;background:var(--accent);color:var(--accent-ink);
+  font-family:var(--display);font-size:22px;font-weight:700}
+.big{font-family:var(--display);font-size:64px;font-weight:700;line-height:1;font-variant-numeric:tabular-nums}
+.verdict{font-family:var(--display);font-size:22px;margin:6px 0 0}
+.cats{display:flex;flex-direction:column;gap:6px;margin-top:14px;font-size:15px}
+.cats div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px;font-variant-numeric:tabular-nums}
+.row{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.ghost{min-height:52px;border-radius:10px;border:1px solid var(--line);background:var(--surface);font-family:var(--display);font-size:20px;font-weight:600}
+footer{font-size:13px;color:var(--muted)}
+.linkbtn{align-self:flex-start;background:none;border:0;padding:6px 2px;min-height:40px;color:var(--muted);text-decoration:underline;font-size:15px}
+.sources ul{margin:12px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:10px;font-size:16px}
+.sources a{color:var(--sign);font-weight:600}
+.pages{display:flex;flex-direction:column;gap:6px;margin-top:10px;font-size:15px}
+.pages div{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding-bottom:6px}
+.pages b{white-space:nowrap;font-variant-numeric:tabular-nums}
+.ref{display:block;margin-top:6px;font-size:14px;color:var(--muted)}
+@media (prefers-reduced-motion: reduce){.progress i{transition:none}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <span class="tag">NC Class M · Study aid</span>
+    <h1 style="margin-top:8px">Motorcycle Knowledge Test Prep</h1>
+  </header>
+
+  <section id="home" class="modes">
+    <p class="lede">Scenario questions in the style of the real test, built from the NC Motorcyclists' Handbook. Tap an answer to see why it's right or wrong.</p>
+    <button class="mode primary" id="btnMock"><strong>Mock test</strong><span>25 random questions, scored at the end</span></button>
+    <button class="mode full" id="btnNew"><strong>New questions only</strong><span id="newCount">Questions you haven't answered yet</span></button>
+    <button class="linkbtn" id="resetSeen" type="button">Reset seen questions</button>
+
+    <h2>Your weak areas</h2>
+    <div class="grid">
+      <button class="mode full" data-weak="all"><strong>All weak areas</strong><span id="wAll">Every question below, shuffled</span></button>
+      <button class="mode" data-weak="Lane & turns"><strong>Lane position &amp; turns</strong><span data-count="Lane & turns"></span></button>
+      <button class="mode" data-weak="Swerve vs curve"><strong>Swerving, curves &amp; slow turns</strong><span data-count="Swerve vs curve"></span></button>
+      <button class="mode" data-weak="Emergencies"><strong>Blowouts &amp; emergencies</strong><span data-count="Emergencies"></span></button>
+      <button class="mode" data-weak="Group riding"><strong>Group riding</strong><span data-count="Group riding"></span></button>
+      <button class="mode" data-weak="Tracks & surfaces"><strong>Tracks &amp; surfaces</strong><span data-count="Tracks & surfaces"></span></button>
+    </div>
+
+    <h2>Everything else</h2>
+    <button class="mode" id="btnAll"><strong>Practice all</strong><span id="allCount">Every question, shuffled</span></button>
+    <button class="mode" id="btnMissed"><strong>Review missed</strong><span id="missedCount">Nothing missed yet</span></button>
+    <p class="note">Unofficial study aid, not affiliated with NCDMV. The real test words things its own way. Nothing you tap leaves this device.</p>
+
+    <section class="card sources" id="sources">
+      <h2 style="margin-top:0">Study sources</h2>
+      <p class="note">Every answer here is tied to a page in the official handbook, shown after you answer. Page numbers are the ones printed on the handbook's pages. NCDMV still links the 13th edition (September 2007) as its Motorcyclists' Handbook, and lists no newer one.</p>
+      <ul>
+        <li><a href="https://www.ncdot.gov/dmv/license-id/driver-licenses/new-drivers/Documents/motorcyclist-handbook.pdf">NC Motorcyclists' Handbook (PDF)</a>: the source for the test. Its Test Yourself questions and the sample test questions on p. 42 are the best extra practice.</li>
+        <li><a href="https://www.ncdot.gov/dmv/license-id/driver-licenses/motorcycle/Pages/default.aspx">NCDMV Motorcycle &amp; Moped Privileges</a>: endorsement and permit rules, helmet law.</li>
+        <li><a href="https://www.ncdot.gov/dmv/help/Pages/handbooks.aspx">NCDMV Handbooks</a>: where NCDMV lists its current handbooks.</li>
+      </ul>
+      <h2>Handbook pages for your weak areas</h2>
+      <div class="pages">
+        <div><span>Lane positions, being passed, merging cars</span><b>p. 14 to 18</b></div>
+        <div><span>Intersections, parked cars, stop signs</span><b>p. 20 to 22</b></div>
+        <div><span>Turning, leaning, slow tight turns</span><b>p. 13 to 14</b></div>
+        <div><span>Quick stops, stopping in a curve, swerving</span><b>p. 26 to 28</b></div>
+        <div><span>Curves, obstacles, slippery surfaces</span><b>p. 29 to 30</b></div>
+        <div><span>Railroad tracks, seams, gratings</span><b>p. 31</b></div>
+        <div><span>Flat tires, stuck throttle, wobble, chain</span><b>p. 32 to 33</b></div>
+        <div><span>Animals, flying objects, pulling off</span><b>p. 33 to 34</b></div>
+        <div><span>Passengers and cargo</span><b>p. 34 to 36</b></div>
+        <div><span>Group riding</span><b>p. 36 to 37</b></div>
+        <div><span>Alcohol and fatigue</span><b>p. 38 to 41</b></div>
+      </div>
+      <p class="note" style="margin-top:12px">Other practice sites: I tried two community NC practice tests, but their questions wouldn't load for me to check, so I haven't linked them.</p>
+    </section>
+  </section>
+
+  <section id="quiz" class="card" hidden>
+    <div class="bar"><span id="pos">1 / 25</span><span id="score">0 correct</span><button class="quit" id="quit">Quit</button></div>
+    <div class="progress" style="margin-top:10px"><i id="prog"></i></div>
+    <div style="margin-top:16px"><span class="tag" id="cat">Gear</span></div>
+    <p class="q" id="qtext"></p>
+    <div id="qfig"></div>
+    <div class="answers" id="answers"></div>
+    <div id="fb" class="fb" hidden></div>
+    <div id="efig"></div>
+    <button class="next" id="next" hidden>Next question</button>
+  </section>
+
+  <section id="done" class="card" hidden>
+    <span class="tag" id="doneMode">Mock test</span>
+    <div class="big" id="pct" style="margin-top:12px">0%</div>
+    <p class="verdict" id="verdict"></p>
+    <p class="note" id="raw"></p>
+    <div class="cats" id="cats"></div>
+    <div class="row">
+      <button class="next" id="again" style="margin-top:0">Take a mock test</button>
+      <button class="ghost" id="reviewNow">Review missed</button>
+      <button class="ghost" id="home2">Back to start</button>
+    </div>
+  </section>
+
+  <footer>Based on the NC Motorcyclists' Handbook (content from the Motorcycle Safety Foundation) and the NCDMV Motorcycle &amp; Moped page. Every question shows its source page after you answer.</footer>
+</div>
+
+<script>
+/* ---------- Diagrams (top-down, travel is up the screen) ---------- */
+const FIG = {
+lanes: `<svg viewBox="0 0 320 190" role="img" aria-label="Three lanes. Cars in the left and right lanes. Your middle lane is split into paths 1, 2 and 3.">
+  <rect class="road" x="20" y="0" width="280" height="190"/>
+  <line class="paint" x1="22" y1="0" x2="22" y2="190"/><line class="paint" x1="298" y1="0" x2="298" y2="190"/>
+  <line class="dash" x1="113" y1="0" x2="113" y2="190"/><line class="dash" x1="207" y1="0" x2="207" y2="190"/>
+  <line class="guide" x1="144" y1="0" x2="144" y2="190"/><line class="guide" x1="176" y1="0" x2="176" y2="190"/>
+  <rect class="car" x="42" y="50" width="48" height="84" rx="10"/><rect class="car" x="230" y="70" width="48" height="84" rx="10"/>
+  <text x="124" y="24">1</text><text x="156" y="24">2</text><text x="188" y="24">3</text>
+  <text x="128" y="182">your lane</text></svg>`,
+curve: `<svg viewBox="0 0 320 200" role="img" aria-label="A right-hand curve. The rider's line starts at the outside, moves to the inside at the middle, and exits at the outside.">
+  <path d="M80 210 C 80 110, 160 60, 330 60" stroke="var(--road)" stroke-width="64" fill="none"/>
+  <path class="path" d="M56 200 C 58 150, 118 118, 152 110 S 250 40, 316 34"/>
+  <circle class="fillbike" cx="56" cy="196" r="6"/>
+  <text x="70" y="190">start outside</text><text x="166" y="134">inside at the middle</text><text x="214" y="20">exit outside</text></svg>`,
+stagger: `<svg viewBox="0 0 320 200" role="img" aria-label="Staggered formation in one lane. Rider 1 left, rider 2 right one second back, rider 3 left two seconds behind rider 1, rider 4 right two seconds behind rider 2.">
+  <rect class="road" x="90" y="0" width="140" height="200"/>
+  <line class="paint" x1="92" y1="0" x2="92" y2="200"/><line class="paint" x1="228" y1="0" x2="228" y2="200"/>
+  <rect class="bike" x="113" y="22" width="14" height="30" rx="6"/><rect class="bike" x="193" y="64" width="14" height="30" rx="6"/>
+  <rect class="bike" x="113" y="106" width="14" height="30" rx="6"/><rect class="bike" x="193" y="148" width="14" height="30" rx="6"/>
+  <text x="134" y="42">1 leader</text><text x="152" y="84">2</text><text x="134" y="126">3</text><text x="152" y="168">4</text>
+  <path class="tick" d="M80 37 H70 V121 H80"/><text x="8" y="84">2 sec</text>
+  <path class="tick" d="M240 37 H250 V79 H240"/><text x="256" y="62">1 sec</text>
+  <path class="tick" d="M240 79 H250 V163 H240"/><text x="256" y="126">2 sec</text></svg>`,
+tracks: `<svg viewBox="0 0 320 200" role="img" aria-label="Left: tracks cross the lane at an angle and the rider rides straight across. Right: a seam runs alongside and the rider crosses it at 45 degrees or more.">
+  <rect class="road" x="30" y="10" width="100" height="160"/>
+  <line class="rail" x1="20" y1="120" x2="140" y2="60"/><line class="rail" x1="20" y1="140" x2="140" y2="80"/>
+  <path class="good" d="M80 165 V 18"/><path class="fillgood" d="M72 26 L80 12 L88 26 Z"/>
+  <path class="bad" d="M80 150 L 112 100 L 112 40"/>
+  <text x="14" y="192">Across: ride straight</text>
+  <rect class="road" x="190" y="10" width="100" height="160"/>
+  <line class="rail" x1="235" y1="10" x2="235" y2="170"/>
+  <path class="good" d="M212 165 V 115 L 258 70 V 18"/><path class="fillgood" d="M250 26 L258 12 L266 26 Z"/>
+  <text x="172" y="192">Alongside: 45° or more</text></svg>`,
+corner: `<svg viewBox="0 0 320 200" role="img" aria-label="A car waits on a side road on the right to enter your road. You are approaching in your lane.">
+  <rect class="road" x="90" y="0" width="140" height="200"/>
+  <rect class="road" x="228" y="50" width="100" height="70"/>
+  <line class="paint" x1="92" y1="0" x2="92" y2="200"/><line class="dash" x1="160" y1="0" x2="160" y2="200"/>
+  <line class="paint" x1="228" y1="0" x2="228" y2="48"/><line class="paint" x1="228" y1="122" x2="228" y2="200"/>
+  <rect class="car" x="240" y="88" width="76" height="28" rx="8"/>
+  <rect class="bike" x="186" y="152" width="14" height="30" rx="6"/><text x="104" y="172">you</text></svg>`,
+slowturn: `<svg viewBox="0 0 320 180" role="img" aria-label="Normal turn: rider and motorcycle lean together. Slow tight turn: motorcycle leans, rider's body stays upright.">
+  <line class="tick" x1="10" y1="160" x2="150" y2="160"/><line class="tick" x1="170" y1="160" x2="310" y2="160"/>
+  <path d="M80 158 L 108 70" stroke="var(--car)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M96 112 L 120 40" stroke="var(--bike)" stroke-width="10" stroke-linecap="round"/><circle class="fillbike" cx="124" cy="30" r="10"/>
+  <path d="M240 158 L 268 70" stroke="var(--car)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M252 116 L 246 44" stroke="var(--bike)" stroke-width="10" stroke-linecap="round"/><circle class="fillbike" cx="245" cy="32" r="10"/>
+  <text x="18" y="178">Normal: lean together</text><text x="182" y="178">Slow: body upright</text></svg>`
+};
+const CAPS = {
+lanes:"Each lane has three paths: left (1), center (2) and right (3). Move away from whatever could hit you.",
+curve:"With no traffic: start outside, move toward the inside as you turn, then drift back outside to exit. With traffic, the center of the lane all the way through is a safe choice too.",
+stagger:"Leader on the left, rider 2 one second back on the right, rider 3 two seconds behind the leader, rider 4 two seconds behind rider 2.",
+tracks:"Tracks that cross your lane: stay straight in your lane. Don't turn to hit them at 90°. A seam or track running alongside you: move away from it, then cross at 45° or more with a quick, sharp turn.",
+corner:"A car waiting to pull out may not see you or may misjudge your speed.",
+slowturn:"In normal turns you and the bike lean together. In slow, tight turns, lean the bike and keep your body straight to counterbalance."
+};
+
+/* ---------- Questions ----------
+c: category, q: question, o: options, a: index of correct option, e: explanation,
+w: true for weak-area questions, img: diagram shown with the question, eimg: diagram shown after you answer */
+const Q = [
+// ===== LANE POSITION & TURNS (weak) =====
+{c:"Lane & turns",w:1,r:"p. 15",img:"lanes",q:"Cars are traveling in the lanes on both sides of you. Which path in your lane is usually your best option?",o:["Path 1, the left third","Path 2, the center","Path 3, the right third","Any path, as long as you keep your speed"],a:1,e:"If vehicles are on both sides of you, the center of the lane, path 2, is usually your best option."},
+{c:"Lane & turns",w:1,r:"p. 15",img:"lanes",q:"Hazards are only on your right side. Where should you ride?",o:["Path 1 or 2","Path 2 or 3","Path 3 only","On the right shoulder"],a:0,e:"Remain in path 1 or 2 if hazards are on your right only. Ride in path 2 or 3 if they're on your left only."},
+{c:"Lane & turns",w:1,r:"p. 22",q:"You are passing a row of parked cars on your right, with no oncoming traffic. Where in your lane should you ride?",o:["Toward the right, so drivers in the cars can see you","Toward the left of your lane","On the right edge line","On the center line"],a:1,e:"Staying toward the left avoids doors opening, drivers getting out and people stepping out from between cars."},
+{c:"Lane & turns",w:1,r:"p. 22",q:"You're passing parked cars on your right, and oncoming traffic is present. What is usually best?",o:["Move to the left portion of your lane","Remain in the center-lane position","Move close to the parked cars","Speed up to get past quickly"],a:1,e:"With oncoming traffic, it is usually best to remain in the center-lane position to keep the most space around you."},
+{c:"Lane & turns",w:1,r:"p. 18",q:"A car is merging onto the highway from an on-ramp next to your lane. What should you do?",o:["Hold your speed; you have the right-of-way","Speed up to get past the ramp first","Give it room: change lanes if one is open, or adjust speed to open space","Move to the right portion of your lane so the driver sees you"],a:2,e:"Give merging cars plenty of room. Change lanes if one is open; if not, adjust your speed to open space."},
+{c:"Lane & turns",w:1,r:"p. 18",q:"You notice you've been riding right next to a car in the lane beside you. What is the best thing to do?",o:["Stay there so the driver can see you","Move closer to the car so it can't drift over","Speed up or drop back to find a spot clear on both sides","Honk so the driver knows you're there"],a:2,e:"Don't ride next to cars or trucks in other lanes if you don't have to. Speed up or drop back to find a place clear of traffic on both sides."},
+{c:"Lane & turns",w:1,r:"p. 25",q:"Before you change lanes, which is enough to know the lane is clear?",o:["Checking both mirrors","Checking the mirror on the side you're moving to","Checking mirrors and turning your head to look","Signaling for three seconds"],a:2,e:"Checking your mirrors is not enough. Motorcycles have blind spots, so turn your head and look to the side."},
+{c:"Lane & turns",w:1,r:"p. 21",q:"You're approaching a blind intersection with buildings blocking the view. Which lane position should you pick?",o:["The center, to stay out of the oil strip","The one that brings you into the other driver's view at the earliest moment","The right side, close to the curb","Whatever position you were already in"],a:1,e:"Move to the part of the lane that brings you into another driver's field of vision at the earliest possible moment."},
+{c:"Lane & turns",w:1,r:"p. 22",q:"You have a stop sign where you can't see cross traffic well from the stop line. What should you do?",o:["Stop well past the line so you can see","Stop at the line first, then edge forward and stop again just short of the cross-traffic lane","Roll slowly through the stop to save time","Stop behind the line and wait until a driver waves you on"],a:1,e:"Stop at the stop sign or line first. Then edge forward and stop again, just short of where the cross-traffic lane meets yours."},
+{c:"Lane & turns",w:1,r:"p. 42 (sample question 5)",img:"corner",q:"The car on the side road is waiting to enter the intersection. It is best to:",o:["Make eye contact with the driver","Reduce speed and be ready to react","Keep your speed and lane position","Keep your speed and move to the right"],a:1,e:"This is one of the handbook's own sample test questions. The answer is to reduce speed and be ready to react."},
+{c:"Lane & turns",w:1,r:"p. 20 and p. 22 (Test Yourself 6)",q:"Making eye contact with another driver:",o:["Is a good sign they see you","Is not worth the effort it takes","Doesn't mean that the driver will yield","Guarantees that the driver will yield to you"],a:2,e:"Never count on eye contact as a sign that a driver will yield. Over half of motorcycle/car crashes are caused by drivers entering a rider's right-of-way."},
+{c:"Lane & turns",w:1,r:"p. 29",eimg:"curve",q:"No other traffic is around and you're entering a curve. Which path does the handbook recommend?",o:["Hug the inside the whole way","Start at the outside, move toward the inside as you turn, then back outside to exit","Ride on the center line","Start inside and finish outside"],a:1,e:"Starting at the outside increases your line of sight and the effective radius of the turn."},
+{c:"Lane & turns",w:1,r:"p. 29",eimg:"curve",q:"Besides the outside-inside-outside path, what other lane position through a curve does the handbook offer?",o:["Move to the center of your lane before the curve and stay there until you exit","Cut to the inside early to shorten the curve","Ride the outside edge the whole way","Move to the left portion to pass traffic in the curve"],a:0,e:"Another option is to move to the center of your lane before entering a curve and stay there until you exit. That lets you spot approaching traffic as soon as possible."},
+{c:"Lane & turns",w:1,r:"p. 13 and p. 14 (Test Yourself 3)",q:"When riding, you should:",o:["Turn your head and shoulders to look through turns","Keep your arms straight","Keep your knees away from the gas tank","Turn just your head and eyes to look where you are going"],a:3,e:"Turn just your head, not your shoulders, and keep your eyes level with the horizon."},
+{c:"Lane & turns",w:1,r:"p. 13",q:"You want to turn left at speed. To make the bike lean left, you:",o:["Press on the right handgrip","Press on the left handgrip","Lean your body right","Pull back on the left handgrip"],a:1,e:"To lean the motorcycle, press on the handgrip in the direction of the turn. Press left, lean left, go left."},
+{c:"Lane & turns",w:1,r:"p. 13",q:"When should you do your slowing for a turn?",o:["In the middle of the turn","Before the turn, by closing the throttle and using both brakes if needed","After you see the exit","Only by downshifting in the turn"],a:1,e:"SLOW comes first: reduce speed before the turn by closing the throttle and, if necessary, applying both brakes."},
+{c:"Lane & turns",w:1,r:"p. 14",q:"What should the throttle do through a turn?",o:["Closed completely so you coast","Steady speed or a gradual increase","Quick bursts to keep the bike upright","Closed, then sharply open at the exit"],a:1,e:"Roll on the throttle through the turn to stabilize suspension. Keep a steady speed or accelerate gradually."},
+{c:"Lane & turns",w:1,r:"p. 13",q:"When is it best to change gears for a turn?",o:["In the middle of the turn","Before you enter the turn","At the exit only","Gears don't matter in turns"],a:1,e:"It is best to change gears before entering a turn. If you must shift in a turn, do it smoothly, because a sudden change in power can cause a skid."},
+{c:"Lane & turns",w:1,r:"p. 17",q:"A car is passing you from behind. Which part of your lane should you ride in?",o:["The portion nearest the passing car","The center portion","The far side, on the edge line","Whichever lets you speed up"],a:1,e:"When you are being passed from behind or by an oncoming vehicle, stay in the center portion of your lane."},
+
+// ===== SWERVING vs CURVES vs SLOW TURNS (weak) =====
+{c:"Swerve vs curve",w:1,r:"p. 27",q:"What is a swerve?",o:["A slow, tight turn at parking-lot speed","Any sudden change in direction","Leaning through a long curve","Changing lanes with a signal"],a:1,e:"A swerve is any sudden change in direction, used to get around something. It is not the same as riding a curve."},
+{c:"Swerve vs curve",w:1,r:"p. 27 and p. 42 (sample question 3)",q:"To swerve correctly:",o:["Shift your weight quickly","Turn the handlebars quickly","Press the handgrip in the direction of the turn","Press the handgrip in the opposite direction of the turn"],a:2,e:"Apply hand pressure to the handgrip on the side you want to escape to. This is one of the handbook's sample test questions."},
+{c:"Swerve vs curve",w:1,r:"p. 27",q:"You swerve left around a box in the road. How do you get back on your original path?",o:["Press the left grip again","Press the right grip once you clear the obstacle","Brake hard to stand the bike up","Lean your body right only"],a:1,e:"To swerve left, press the left handgrip, then press the right to recover."},
+{c:"Swerve vs curve",w:1,r:"p. 28",q:"You need to both slow down and swerve around a hazard. What is the right way?",o:["Brake hard while you swerve","Brake before or after the swerve, never while swerving","Use only the rear brake during the swerve","Don't brake at all; swerving replaces braking"],a:1,e:"If braking is required, separate it from swerving. Brake before or after, never while swerving."},
+{c:"Swerve vs curve",w:1,r:"p. 26",q:"Studies of crashes show that in emergencies, many riders:",o:["Overbrake the front and underbrake the rear","Underbrake the front tire and overbrake the rear","Swerve every time they should brake","Brake too early"],a:1,e:"The handbook says riders tend to underbrake the front tire and overbrake the rear."},
+{c:"Swerve vs curve",w:1,r:"p. 13",q:"Can you use your brakes in a turn?",o:["Never, it always causes a crash","Yes, but very carefully, because less traction is available for stopping","Yes, the same as when upright","Only the front brake"],a:1,e:"Using both brakes in a turn is possible but should be done very carefully. When leaning, some traction is used for cornering, so less is available for stopping."},
+{c:"Swerve vs curve",w:1,r:"p. 27",q:"You must stop quickly while you're in a curve. What is the best technique?",o:["Grab both brakes hard while still leaned","Straighten the bike upright first, then brake","Use only the rear brake while leaned","Lean harder to tighten the turn, then brake"],a:1,e:"If you must stop quickly while turning or in a curve, straighten the bike upright first and then brake."},
+{c:"Swerve vs curve",w:1,r:"p. 27",q:"You can't straighten up before braking in a curve. What should you do?",o:["Squeeze both brakes as hard as possible","Apply light brakes and reduce the throttle, adding brake as the bike straightens","Roll on the throttle and wait","Pull in the clutch and coast"],a:1,e:"If you must brake while leaning, apply light brakes and reduce the throttle. As you slow, reduce your lean and add brake pressure."},
+{c:"Swerve vs curve",w:1,r:"p. 27",q:"In the last few feet of a quick stop in a curve, what should you do with the handlebars?",o:["Keep them turned into the curve","Straighten them","Turn them away from the curve","Let go of one grip"],a:1,e:"Straighten the handlebars in the last few feet of stopping."},
+{c:"Swerve vs curve",w:1,r:"p. 14",eimg:"slowturn",q:"In a normal turn at road speed, how should you and the motorcycle lean?",o:["Together, at the same angle","You lean more than the bike","The bike leans and your body stays upright","Neither should lean"],a:0,e:"In normal turns, the rider and the motorcycle should lean together at the same angle."},
+{c:"Swerve vs curve",w:1,r:"p. 14",eimg:"slowturn",q:"You're making a slow, tight turn. How should you lean?",o:["Lean with the bike at the same angle","Lean the motorcycle only and keep your body straight","Lean the bike as far as it goes","Put both feet down and walk it"],a:1,e:"In slow tight turns, counterbalance by leaning the motorcycle only and keeping your body straight."},
+{c:"Swerve vs curve",w:1,r:"p. 27",q:"Which of these calls for pressing one handgrip and then quickly pressing the other?",o:["A long, sweeping curve","A swerve around an obstacle","A slow, tight turn","A normal stop"],a:1,e:"That's a swerve: press toward your escape, then press the opposite grip once you clear the obstacle."},
+
+// ===== EMERGENCIES (weak) =====
+{c:"Emergencies",w:1,r:"p. 32",q:"While riding, the steering suddenly feels heavy. What has most likely happened?",o:["The rear tire went flat","The front tire went flat","The chain slipped","The engine is overheating"],a:1,e:"If the front tire goes flat, the steering will feel heavy."},
+{c:"Emergencies",w:1,r:"p. 32",q:"The back of your motorcycle starts jerking from side to side. What is the most likely cause?",o:["A flat front tire","A flat rear tire","Low oil","A loose mirror"],a:1,e:"If the rear tire goes flat, the back of the motorcycle may jerk from side to side."},
+{c:"Emergencies",w:1,r:"p. 32",q:"A tire suddenly goes flat. What should you do first?",o:["Brake hard with both brakes","Hold the handgrips firmly, ease off the throttle and keep a straight course","Relax your grip and let the bike steer itself","Shift your weight toward the good tire"],a:1,e:"Hold handgrips firmly, ease off the throttle, and keep a straight course."},
+{c:"Emergencies",w:1,r:"p. 32 and p. 42 (sample question 4)",q:"If a tire goes flat while riding, it is usually best to:",o:["Relax on the handgrips","Shift your weight toward the good tire","Brake on the good tire and steer to the side of the road","Use both brakes and stop quickly"],a:2,e:"If braking is required, gradually apply the brake of the tire that isn't flat, if you are sure which one it is. This is a handbook sample test question."},
+{c:"Emergencies",w:1,r:"p. 32",q:"After a flat tire, your motorcycle has slowed. What next?",o:["Stop in your lane right away","Edge to the side of the road, squeeze the clutch and stop","Keep riding slowly to the next exit","Speed back up to keep the tire seated"],a:1,e:"When the motorcycle slows, edge to the side of the road, squeeze the clutch and stop."},
+{c:"Emergencies",w:1,r:"p. 32",q:"Your throttle sticks open. What should you try first?",o:["Hit the engine cut-off switch","Twist the throttle back and forth several times","Brake hard with the rear","Pull in the clutch and leave the engine running"],a:1,e:"Twist the throttle back and forth several times first."},
+{c:"Emergencies",w:1,r:"p. 32",q:"Twisting the stuck throttle didn't free it. Now you should:",o:["Operate the engine cut-off switch and pull in the clutch at the same time","Brake hard while it's still open","Shift into a higher gear","Turn the key off while leaning"],a:0,e:"If the throttle stays stuck, immediately operate the engine cut-off switch and pull in the clutch at the same time."},
+{c:"Emergencies",w:1,r:"p. 33 (Test Yourself 10)",q:"If your motorcycle starts to wobble:",o:["Accelerate out of the wobble","Use the brakes gradually","Grip the handlebars firmly and close the throttle gradually","Downshift"],a:2,e:"Grip the handlebars firmly and close the throttle gradually. This is a Test Yourself question."},
+{c:"Emergencies",w:1,r:"p. 32 to 33",q:"During a wobble, why shouldn't you brake or accelerate?",o:["It wears the pads","Either one can make the wobble worse","The brakes don't work in a wobble","It's illegal"],a:1,e:"Trying to accelerate out of a wobble only makes the motorcycle more unstable, and braking could make it worse."},
+{c:"Emergencies",w:1,r:"p. 26",q:"During a quick stop your front wheel locks. What should you do?",o:["Keep it locked until you stop","Release the front brake immediately, then reapply it firmly","Let go of both brakes and coast","Steer to unlock it"],a:1,e:"If the front wheel locks, release the front brake immediately, then reapply it firmly. At the same time, press down on the rear brake."},
+{c:"Emergencies",w:1,r:"p. 26",q:"You accidentally lock the rear wheel on a good traction surface. What now?",o:["Release it and reapply","Keep it locked until you have completely stopped","Pull in the clutch and steer","Let go of the front brake"],a:1,e:"If you lock the rear brake on a good traction surface, keep it locked until you have completely stopped."},
+{c:"Emergencies",w:1,r:"p. 26 and p. 29 (Test Yourself 8)",q:"The best way to stop quickly is to:",o:["Use the front brake only","Use the rear brake first","Throttle down and use the front brake","Use both brakes at the same time"],a:3,e:"To stop quickly, apply both brakes at the same time."},
+{c:"Emergencies",w:1,r:"p. 24 and p. 42 (sample question 1)",q:"It is MOST important to flash your brake light when:",o:["Someone is following too closely","You will be slowing suddenly","There is a stop sign ahead","Your signals are not working"],a:1,e:"This is one of the handbook's sample test questions. The answer is when you will be slowing suddenly."},
+{c:"Emergencies",w:1,r:"p. 33",q:"Your chain breaks while riding. What should you do?",o:["Accelerate to keep moving","Close the throttle and brake to a stop","Swerve to the shoulder at speed","Downshift twice"],a:1,e:"If the chain breaks, close the throttle and brake to a stop. A slipping or broken chain can lock the rear wheel."},
+{c:"Emergencies",w:1,r:"p. 33",q:"Your engine seizes (locks up) while riding. What do you do?",o:["Keep the clutch out and brake","Squeeze the clutch, pull off the road and stop, then check the oil","Turn off the engine and coast in gear","Rev the engine to free it"],a:1,e:"Squeeze the clutch lever to disengage the engine from the rear wheel. Pull off the road, stop and check the oil."},
+{c:"Emergencies",w:1,r:"p. 34",q:"Something flies up and hits your face shield. What should you do?",o:["Lift the shield right away","Keep your eyes on the road and hands on the handlebars, then pull off when safe","Brake hard immediately","Wipe it while you ride"],a:1,e:"Keep your eyes on the road and your hands on the handlebars. When safe, pull off the road and repair the damage."},
+{c:"Emergencies",w:1,r:"p. 34",q:"You need to pull off onto a soft grass shoulder. What should you do?",o:["Keep your speed so the tires don't sink","Slow way down before you turn onto it","Brake hard once you're on the grass","Stop on the edge line"],a:1,e:"If the shoulder is soft grass, loose sand, or you're just not sure about it, slow way down before you turn onto it."},
+{c:"Emergencies",w:1,r:"p. 33",q:"A small animal runs into your path while you're in traffic. What does the handbook say?",o:["Swerve into the next lane","Remain in your lane","Brake to a full stop in traffic","Kick at it"],a:1,e:"If you are in traffic, remain in your lane. Hitting something small is less dangerous than hitting something big, like a car."},
+{c:"Emergencies",w:1,r:"p. 33",q:"A deer stands in the road ahead. What should you do?",o:["Swerve around it at speed","Brake and prepare to stop","Honk and keep going","Speed up to get past"],a:1,e:"For larger animals (deer, elk, cattle), brake and prepare to stop."},
+{c:"Emergencies",w:1,r:"p. 33 (Test Yourself 11)",q:"If you are chased by a dog:",o:["Kick it away","Stop until the animal loses interest","Swerve around the animal","Approach the animal slowly, then speed up"],a:3,e:"Downshift and approach the animal slowly. As you approach it, accelerate away. Don't kick at an animal."},
+
+// ===== GROUP RIDING (weak) =====
+{c:"Group riding",w:1,r:"p. 37",eimg:"stagger",q:"In a staggered formation, where does the leader ride?",o:["The center of the lane","The left side of the lane","The right side of the lane","On the shoulder"],a:1,e:"The leader rides in the left side of the lane."},
+{c:"Group riding",w:1,r:"p. 37",eimg:"stagger",q:"In a staggered formation, where does the second rider ride?",o:["Directly behind the leader","Right side of the lane, one second behind the leader","Beside the leader","Left side, two seconds back"],a:1,e:"The second rider stays one second behind, in the right side of the lane."},
+{c:"Group riding",w:1,r:"p. 37",eimg:"stagger",q:"Where does the third rider in a staggered formation ride?",o:["Right side, one second behind rider 2","Left side, two seconds behind the leader","Beside rider 2","Directly behind rider 2"],a:1,e:"A third rider keeps the left position, two seconds behind the first rider."},
+{c:"Group riding",w:1,r:"p. 37",eimg:"stagger",q:"The fourth rider in a staggered formation keeps what distance?",o:["One second behind rider 3","Two seconds behind the second rider","Three seconds behind the leader","Side by side with rider 3"],a:1,e:"The fourth rider keeps a two-second distance behind the second rider."},
+{c:"Group riding",w:1,r:"p. 36 and p. 37 (Test Yourself 13)",q:"When riding in a group, inexperienced riders should position themselves:",o:["Just behind the leader","In front of the group","At the tail end of the group","Beside the leader"],a:0,e:"Place inexperienced riders just behind the leader, so the more experienced riders can watch them from the back."},
+{c:"Group riding",w:1,r:"p. 36",q:"Who should set the pace of a group ride?",o:["The leader","The fastest rider","The tailender","Whoever knows the route"],a:2,e:"Let the tailender set the pace."},
+{c:"Group riding",w:1,r:"p. 36",q:"A rider at the back starts to fall behind. What should the group do?",o:["Keep going; they'll catch up at the stop","Everyone slows down a little","The leader speeds up to clear traffic","Send the last rider ahead"],a:1,e:"If a rider falls behind, everyone should slow down a little to stay with the tailender."},
+{c:"Group riding",w:1,r:"p. 36",q:"Eight friends want to ride together. What does the handbook recommend?",o:["One group, single file","One group, two abreast","Split into two or more smaller groups","One group with tighter spacing"],a:2,e:"If your group is larger than four or five riders, divide it up into two or more smaller groups."},
+{c:"Group riding",w:1,r:"p. 37",q:"When is it best for a group to move into single-file formation?",o:["On long straight highways","When riding curves, turning, and entering or leaving a highway","Only at night","When traffic is light"],a:1,e:"It is best to move into single file when riding curves, turning, or entering or leaving a highway."},
+{c:"Group riding",w:1,r:"p. 37",q:"How should a staggered group pass a slower vehicle?",o:["All riders pass together","One at a time","In pairs","The last rider passes first"],a:1,e:"Riders in a staggered formation should pass one at a time."},
+{c:"Group riding",w:1,r:"p. 37",q:"After the lead rider passes a vehicle, where should the leader go?",o:["Back to the right side of the lane","Back to the left position","The center of the lane","The shoulder, to wait"],a:1,e:"The leader passes when safe, then returns to the left position and keeps going, which opens room for the next rider."},
+{c:"Group riding",w:1,r:"p. 37",q:"In a staggered pass, what does the second rider do?",o:["Passes from the right side","Moves to the left position, passes, then returns to the right position","Waits for the leader to come back","Passes alongside the leader"],a:1,e:"After the leader passes, the second rider moves left, passes when safe, then returns to the right position."},
+{c:"Group riding",w:1,r:"p. 37",q:"What does the handbook say about riding directly alongside another rider?",o:["It's fine on wide roads","Never do it","Only at low speeds","Only for experienced riders"],a:1,e:"Never operate directly alongside another rider. Neither of you would have room to avoid a hazard."},
+{c:"Group riding",w:1,r:"p. 36",q:"Why should a group leader signal changes early?",o:["To show off the route","So the word gets back to the riders behind","Because it's the law","To slow traffic behind"],a:1,e:"The leader should look ahead for changes and signal early so the word gets back."},
+{c:"Group riding",w:1,r:"p. 37",q:"Before a group ride, what helps keep the group together?",o:["Everyone rides at their own pace","Make sure everyone knows the route","Ride as close as possible","Skip rest stops"],a:1,e:"Make sure everyone knows the route, so nobody has to hurry to keep up."},
+
+// ===== TRACKS & SURFACES (weak) =====
+{c:"Tracks & surfaces",w:1,r:"p. 31",eimg:"tracks",q:"Railroad tracks cross your lane at an angle. What is usually safest?",o:["Turn so you hit the tracks at exactly 90 degrees","Ride straight within your lane","Cross them at a shallow angle by edging over","Stop and walk the bike across"],a:1,e:"Usually it is safer to ride straight within your lane to cross tracks. Turning to take them head-on (at 90°) can be more dangerous."},
+{c:"Tracks & surfaces",w:1,r:"p. 31",eimg:"tracks",q:"A track or pavement seam runs alongside your path and you need to cross it. How?",o:["Edge across slowly at a slight angle","Move far enough away to cross at an angle of at least 45 degrees, then make a quick, sharp turn","Cross at 90 degrees by stopping first","Ride on top of it"],a:1,e:"Cross at an angle of at least 45°, then make a quick, sharp turn. Edging across could catch your tires."},
+{c:"Tracks & surfaces",w:1,r:"p. 31",q:"Why is edging slowly across a seam that runs parallel to you dangerous?",o:["It wears the tire","It could catch your tires","It's illegal","It makes the bike too slow"],a:1,e:"Edging across could catch your tires. Cross at 45 degrees or more instead."},
+{c:"Tracks & surfaces",w:1,r:"p. 29",q:"There's a board in your lane and you can't safely go around it. How should you approach it?",o:["At as close to a 90-degree angle as possible","At a 45-degree angle","At whatever angle you're already on","At a shallow angle so you roll off it"],a:0,e:"For an obstacle you must ride over, approach it as close to 90° as possible. Don't mix this up with tracks crossing your lane, where you ride straight."},
+{c:"Tracks & surfaces",w:1,r:"p. 30",q:"Just before riding over an obstacle, what should you do with your body?",o:["Sit down firmly","Rise slightly off the seat with your weight on the footpegs","Lean back","Put your feet down"],a:1,e:"Rise slightly off the seat with your weight on the footpegs to absorb the shock."},
+{c:"Tracks & surfaces",w:1,r:"p. 30",q:"Just before your front tire hits an obstacle, you should:",o:["Grab the front brake","Roll on the throttle slightly to lighten the front end","Pull in the clutch","Swerve"],a:1,e:"Just before contact, roll on the throttle slightly to lighten the front end. Slow down as much as possible before contact and keep the bike straight up."},
+{c:"Tracks & surfaces",w:1,r:"p. 30",q:"You've just ridden over a large object. What should you do?",o:["Nothing if the bike feels fine","Pull off the road and check your tires and rims for damage","Speed up to test the tires","Check only at your next gas stop"],a:1,e:"Pull off the road and check your tires and rims for damage before riding on."},
+{c:"Tracks & surfaces",w:1,r:"p. 31",q:"Riding over a metal bridge grating makes your bike feel unsteady. What should you do?",o:["Slow down quickly with both brakes","Relax, maintain a steady speed and ride straight across","Cross at an angle","Zigzag to find better grip"],a:1,e:"Relax, maintain a steady speed and ride straight across. Crossing at an angle forces you to zigzag to stay in the lane."},
+{c:"Tracks & surfaces",w:1,r:"p. 30 and p. 31 (Test Yourself 9)",q:"When it starts to rain, it is usually best to:",o:["Ride in the center of the lane","Pull off to the side until the rain stops","Ride in the tire tracks left by cars","Increase your speed"],a:2,e:"When it starts to rain, ride in the tire tracks left by cars."},
+{c:"Tracks & surfaces",w:1,r:"p. 30",q:"When is wet pavement especially slippery?",o:["After an hour of steady rain","Just after it starts to rain","After it stops raining","Rain doesn't affect traction much"],a:1,e:"The handbook lists wet pavement, particularly just after it starts to rain, as a slippery surface."},
+{c:"Tracks & surfaces",w:1,r:"p. 30",q:"Which of these does the handbook list as slippery, especially when wet?",o:["Fresh dry asphalt","Lane markings, steel plates and manhole covers","Concrete in the tire tracks","A dry brushed-concrete bridge deck"],a:1,e:"Lane markings, steel plates and manhole covers, especially when wet. Also gravel, sand, mud, snow and ice."},
+{c:"Tracks & surfaces",w:1,r:"p. 30",q:"On a slippery surface, how should you use your brakes?",o:["Rear brake only","Front brake only","Both brakes, because the front is still effective","Don't brake at all"],a:2,e:"Use both brakes. The front brake is still effective even on a slippery surface. Squeeze gradually, never grab."},
+{c:"Tracks & surfaces",w:1,r:"p. 30",q:"You can't avoid a short patch of ice. What should you do?",o:["Brake firmly on the ice","Keep off the brakes, squeeze the clutch and coast","Accelerate across","Swerve on the ice"],a:1,e:"Keep off the brakes. If possible, squeeze the clutch and coast. You may let your feet skim along the surface."},
+
+// ===== GEAR =====
+{c:"Gear",r:"p. 6",q:"Under North Carolina law, who must wear a helmet on a motorcycle?",o:["Only riders under 21","The operator and all passengers","Only the operator","Only on highways over 45 mph"],a:1,e:"North Carolina law requires the operator and all passengers to wear a helmet."},
+{c:"Gear",r:"p. 6",q:"A legal helmet in NC must comply with:",o:["Snell standards only","Federal Motor Vehicle Safety Standard (FMVSS) 218","Any manufacturer's own standard","European standards only"],a:1,e:"FMVSS 218, with the DOT symbol permanently put on the back of the helmet by the manufacturer."},
+{c:"Gear",r:"p. 7 and p. 8 (Test Yourself 1)",q:"A plastic shatter-resistant face shield:",o:["Is not necessary if you have a windshield","Only protects your eyes","Helps protect your whole face","Does not protect your face as well as goggles"],a:2,e:"A face shield helps protect your whole face. A windshield is not a substitute for a face shield or goggles."},
+{c:"Gear",r:"p. 26 (Test Yourself 7)",q:"Reflective clothing should:",o:["Be worn at night","Be worn during the day","Not be worn","Be worn day and night"],a:3,e:"The handbook's answer is day and night."},
+{c:"Gear",r:"p. 7",q:"When should you NOT wear tinted eye protection?",o:["On bright days","At night or any other time when little light is available","On the interstate","In light rain during the day"],a:1,e:"Tinted eye protection should not be worn at night or any other time when little light is available."},
+{c:"Gear",r:"p. 7",q:"Which is a requirement for effective eye protection?",o:["It seals out all air","It fastens securely and gives a clear view to either side","It may have light scratches","It fits under eyeglasses"],a:1,e:"It must be free of scratches, resist penetration, give a clear view to either side, fasten securely, let air through and leave room for glasses."},
+// ===== CONTROLS & BASICS =====
+{c:"Controls",r:"p. 13 and p. 42 (sample question 2)",q:"The FRONT brake supplies how much of the potential stopping power?",o:["About one-quarter","About one-half","About three-quarters","All of the stopping power"],a:2,e:"About three-quarters. This is a handbook sample test question."},
+{c:"Controls",r:"p. 20 (Test Yourself 5)",q:"To reduce your reaction time, you should:",o:["Ride slower than the speed limit","Cover the clutch and brakes","Shift into neutral when slowing","Pull in the clutch when turning"],a:1,e:"Cover the clutch and both brakes to reduce the time you need to react."},
+{c:"Controls",r:"p. 12",q:"When you slow or stop, how should you handle the gears?",o:["Stay in a high gear and coast","Shift down through the gears and stay in first while stopped","Shift to neutral as soon as you brake","Downshift only after stopping"],a:1,e:"Shift down through the gears with the clutch as you slow or stop, and remain in first so you can move out quickly."},
+{c:"Controls",r:"p. 13",q:"What can happen if you downshift while going too fast for the lower gear?",o:["Nothing","The motorcycle will lurch and the rear wheel may skid","The front brake locks","You gain traction"],a:1,e:"Make certain you're riding slowly enough when you shift into a lower gear."},
+{c:"Controls",r:"p. 10",q:"How often should you make a complete check of your motorcycle?",o:["Once a month","Before every ride","Only before long trips","Only at oil changes"],a:1,e:"Make a complete check of your motorcycle before every ride, and check some items at least once a week."},
+{c:"Controls",r:"p. 10",q:"How should you adjust your mirrors?",o:["To see your own shoulders","To see the lane behind and as much as possible of the lane next to you","Toward the road behind your rear tire","Up toward traffic lights"],a:1,e:"Adjust each mirror so you can see the lane behind and as much as possible of the lane next to you."},
+// ===== STRATEGY & FOLLOWING =====
+{c:"Strategy",r:"p. 9 and p. 10 (Test Yourself 2)",q:"More than half of all crashes:",o:["Occur at speeds greater than 35 mph","Happen at night","Are caused by worn tires","Involve riders who have ridden their motorcycles less than six months"],a:3,e:"More than half of all crashes involve riders who have ridden their motorcycles less than six months."},
+{c:"Strategy",r:"p. 16 and p. 18 (Test Yourself 4)",q:"Usually, a good way to handle tailgaters is to:",o:["Change lanes and let them pass","Speed up to put distance between you","Brake suddenly to warn them","Ignore them"],a:0,e:"A better way to handle tailgaters is to get them in front of you."},
+{c:"Strategy",r:"p. 15 to 16",q:"What is the minimum following distance in normal conditions?",o:["One second","Two seconds","Four seconds","One bike length per 10 mph"],a:1,e:"Normally keep at least two seconds. Open up to three or more when pavement is slippery, you can't see through the vehicle ahead, or traffic is heavy."},
+{c:"Strategy",r:"p. 11",q:"How far ahead should you scan your path of travel?",o:["About 4 seconds","About 12 seconds","About 30 seconds","Just to the car in front"],a:1,e:"Scan your path of travel 12 seconds ahead."},
+{c:"Strategy",r:"p. 19",q:"The SEE strategy stands for:",o:["Search, Evaluate, Execute","Signal, Enter, Exit","Steer, Evade, Escape","Scan, Estimate, Ease off"],a:0,e:"Search, Evaluate, Execute."},
+{c:"Strategy",r:"p. 23",q:"What does the handbook call the best way to help others see your motorcycle?",o:["Use the horn often","Keep the headlight on at all times","Ride in the left lane","Flash your high beam"],a:1,e:"The best way to help others see your motorcycle is to keep the headlight on at all times. Use low beam at night and in cloudy weather."},
+{c:"Strategy",r:"p. 18",q:"Can a car share your lane side by side with you?",o:["Yes, lanes are wide enough","Only in traffic jams","No; cars and motorcycles need a full lane, and lane sharing is usually prohibited","Only if you signal"],a:2,e:"Cars and motorcycles need a full lane to operate safely. Lane sharing is usually prohibited."},
+// ===== PASSENGERS & CARGO =====
+{c:"Passengers",r:"p. 35 (Test Yourself 12)",q:"Passengers should:",o:["Lean as you lean","Hold on to the motorcycle seat","Sit as far back as possible","Never hold onto you"],a:0,e:"Passengers stay directly behind you, leaning as you lean."},
+{c:"Passengers",r:"p. 35",q:"Which instruction should you give a passenger?",o:["Put your feet down at stops","Keep both feet on the footpegs, even when stopped","Climb on before I start the engine","Sit as far back as you can"],a:1,e:"Also: get on only after the engine is started, sit as far forward as possible without crowding you, and hold your waist, hips or belt."},
+{c:"Passengers",r:"p. 34 to 35",q:"With a passenger on board, what changes?",o:["You can brake later","The bike responds more slowly, so ride a little slower in curves, corners and bumps","Nothing","You need less following distance"],a:1,e:"The heavier your passenger, the longer it takes to slow down and speed up. Add a few pounds of pressure to the tires."},
+{c:"Passengers",r:"p. 34",q:"Who should carry passengers or large loads?",o:["Anyone with a learner permit","Only experienced riders","Only riders with saddlebags","Anyone on a bike over 500cc"],a:1,e:"Only experienced riders should carry passengers or large loads."},
+{c:"Cargo",r:"p. 35",q:"Where should cargo be placed?",o:["High on a rack behind the rear axle","Low, and over or in front of the rear axle","On the handlebars","All in one saddlebag"],a:1,e:"Keep the load low, place it over or in front of the rear axle, and load saddlebags with about the same weight."},
+{c:"Cargo",r:"p. 36",q:"Which is the most secure way to tie down cargo?",o:["One elastic cord across the top","Elastic cords with more than one attachment point per side","Rope tied to the passenger pegs","Holding it with one hand"],a:1,e:"Elastic cords with more than one attachment point per side are more secure. Stop and check the load every so often."},
+// ===== ALCOHOL & FATIGUE =====
+{c:"Alcohol",r:"p. 40",q:"In NC, if a test shows an alcohol concentration of 0.08 or more, what happens?",o:["A warning","Your driving privilege is revoked immediately for at least 30 days","A fine only","Nothing on a first offense"],a:1,e:"0.08 or more (0.04 in a commercial vehicle) means immediate revocation for a minimum of 30 days."},
+{c:"Alcohol",r:"p. 41 (Test Yourself 14)",q:"If you wait an hour for each drink before riding:",o:["You cannot be arrested for drinking and riding","Your riding skills will not be affected","Side effects from the drinking may still remain","You will be okay as long as you ride slowly"],a:2,e:"Side effects from the drinking may still remain."},
+{c:"Alcohol",r:"p. 39",q:"You have two drinks in one hour. At the end of that hour:",o:["All the alcohol is gone","At least one drink is still in your bloodstream","Exactly half a drink remains","It depends only on what you ate"],a:1,e:"Alcohol is eliminated at almost one drink per hour, so at least one drink remains."},
+{c:"Alcohol",r:"p. 39",q:"Which three things determine your blood alcohol concentration?",o:["Amount, how fast you drink, and body weight","Brand, temperature and time of day","Food, sleep and age","Mood, height and gender"],a:0,e:"The amount of alcohol you consume, how fast you drink, and your body weight."},
+{c:"Alcohol",r:"p. 39",q:"Which contains about the same alcohol as a 12-ounce can of beer?",o:["A pint of wine","A 5-ounce glass of wine","Three shots of liquor","A 24-ounce beer"],a:1,e:"A 12-ounce beer, a mixed drink with one shot of liquor and a 5-ounce glass of wine all contain the same amount of alcohol."},
+{c:"Fatigue",r:"p. 41",q:"On a long trip, how often should you stop and get off the motorcycle?",o:["Every 30 minutes","At least every two hours","Every six hours","Only for gas"],a:1,e:"Stop and get off at least every two hours. Experienced riders seldom ride more than about six hours a day."},
+// ===== NC LICENSING (from the NCDMV motorcycle page, not the handbook) =====
+{c:"NC rules",r:"NCDMV",q:"What does NC require for a motorcycle endorsement?",o:["Only a skills test","A knowledge test, plus a DMV skills test or an approved Basic Rider Course","Only a vision test","Nothing if you own a motorcycle"],a:1,e:"You must pass the knowledge test. An approved Basic Rider Course replaces the DMV skills test."},
+{c:"NC rules",r:"NCDMV",q:"How long is an NC motorcycle learner permit valid?",o:["30 days","6 months","12 months, renewable once for 6 months","Until you turn 21"],a:2,e:"It's issued for 12 months and can be renewed once for six months."}
+];
+
+/* ---------- App ---------- */
+const $=id=>document.getElementById(id);
+const KEY="ncMotoMissed_v3", SEEN="ncMotoSeen_v3";
+function loadSet(k){try{return new Set(JSON.parse(localStorage.getItem(k)||"[]"))}catch(e){return new Set()}}
+function saveSet(k,s){try{localStorage.setItem(k,JSON.stringify([...s]))}catch(e){}}
+function saveMissed(){saveSet(KEY,missed)}
+let missed=loadSet(KEY), seen=loadSet(SEEN);
+function unseenIds(){return Q.map((_,k)=>k).filter(k=>!seen.has(k))}
+let deck=[],i=0,right=0,mode="mock",label="",results=[];
+
+function shuffle(a){a=a.slice();for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]]}return a}
+function fig(key){return key?`<figure class="fig">${FIG[key]}<figcaption>${CAPS[key]}</figcaption></figure>`:""}
+function stemFig(key){return key?`<figure class="fig">${FIG[key]}</figure>`:""}
+function refreshHome(){
+  $("allCount").textContent="All "+Q.length+" questions, shuffled";
+  const weak=Q.filter(q=>q.w).length;
+  $("wAll").textContent=weak+" questions on the topics you missed";
+  document.querySelectorAll("[data-count]").forEach(s=>{const n=Q.filter(q=>q.c===s.dataset.count).length;s.textContent=n+" questions"});
+  const n=[...missed].filter(x=>x<Q.length).length;
+  $("missedCount").textContent=n?n+" question"+(n>1?"s":"")+" to go back over":"Nothing missed yet";
+  $("btnMissed").disabled=!n; $("reviewNow").disabled=!n;
+  const u=unseenIds().length;
+  $("newCount").textContent=u?u+" of "+Q.length+" left that you haven't answered":"You've answered all "+Q.length+". Reset to start over.";
+  $("btnNew").disabled=!u;
+  $("resetSeen").hidden=!seen.size;
+}
+function show(id){["home","quiz","done"].forEach(s=>$(s).hidden=s!==id);window.scrollTo(0,0)}
+function start(m,arg){
+  mode=m;
+  const ids=Q.map((_,k)=>k);
+  if(m==="mock"){deck=shuffle(ids).slice(0,25);label="Mock test"}
+  else if(m==="all"){deck=shuffle(ids);label="Practice all"}
+  else if(m==="new"){deck=shuffle(unseenIds());label="New questions"}
+  else if(m==="weak"){deck=shuffle(ids.filter(k=>arg==="all"?Q[k].w:Q[k].c===arg));label=arg==="all"?"Weak areas":arg}
+  else {deck=shuffle([...missed].filter(x=>x<Q.length));label="Review missed"}
+  if(!deck.length) return;
+  i=0;right=0;results=[];show("quiz");render();
+}
+function render(){
+  const q=Q[deck[i]];
+  $("pos").textContent=(i+1)+" / "+deck.length;
+  $("score").textContent=right+" correct";
+  $("prog").style.width=(i/deck.length*100)+"%";
+  $("cat").textContent=q.c; $("cat").className="tag"+(q.w?" weak":"");
+  $("qtext").textContent=q.q;
+  $("qfig").innerHTML=stemFig(q.img);
+  $("efig").innerHTML="";
+  $("fb").hidden=true; $("next").hidden=true;
+  const box=$("answers"); box.innerHTML="";
+  shuffle(q.o.map((_,k)=>k)).forEach((o,n)=>{
+    const b=document.createElement("button");
+    b.className="ans"; b.type="button";
+    b.innerHTML="<b>"+"ABCD"[n]+"</b><span></span>";
+    b.querySelector("span").textContent=q.o[o];
+    b.dataset.o=o;
+    b.onclick=()=>pick(o);
+    box.appendChild(b);
+  });
+}
+function pick(o){
+  const q=Q[deck[i]], ok=o===q.a, id=deck[i];
+  [...$("answers").children].forEach(b=>{
+    b.disabled=true; const v=+b.dataset.o;
+    if(v===q.a) b.classList.add("right");
+    else if(v===o) b.classList.add("wrong");
+    else b.classList.add("dim");
+  });
+  if(ok){right++;missed.delete(id)} else missed.add(id);
+  saveMissed(); seen.add(id); saveSet(SEEN,seen);
+  results.push({cat:q.c,ok});
+  $("score").textContent=right+" correct";
+  const fb=$("fb"); fb.hidden=false; fb.className="fb "+(ok?"right":"wrong");
+  fb.innerHTML="<strong>"+(ok?"Correct":"Not quite")+"</strong><span></span>";
+  fb.querySelector("span").textContent=q.e;
+  const ref=document.createElement("em"); ref.className="ref";
+  ref.textContent=q.r==="NCDMV"?"Source: NCDMV Motorcycle & Moped page":"Source: NC Motorcyclists' Handbook, "+q.r;
+  fb.appendChild(ref);
+  const key=q.eimg||q.img;
+  $("efig").innerHTML=q.eimg?fig(q.eimg):(q.img?`<p class="note" style="margin-top:8px">${CAPS[key]}</p>`:"");
+  $("next").textContent=i+1<deck.length?"Next question":"See my score";
+  $("next").hidden=false; $("next").focus({preventScroll:true});
+  fb.scrollIntoView({block:"nearest",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});
+}
+function finish(){
+  const n=results.length, pct=n?Math.round(right/n*100):0;
+  $("doneMode").textContent=label;
+  $("pct").textContent=pct+"%";
+  $("raw").textContent=right+" of "+n+" correct";
+  $("verdict").textContent=pct>=90?"Ready. Go get that endorsement.":pct>=80?"Solid. Go over what you missed once more.":"Keep going. Review what you missed, then try again.";
+  const by={}; results.forEach(r=>{by[r.cat]=by[r.cat]||[0,0];by[r.cat][1]++;if(r.ok)by[r.cat][0]++});
+  const c=$("cats"); c.innerHTML="";
+  Object.entries(by).sort((a,b)=>(a[1][0]/a[1][1])-(b[1][0]/b[1][1])).forEach(([k,[g,t]])=>{
+    const d=document.createElement("div"); d.innerHTML="<span></span><span></span>";
+    d.children[0].textContent=k; d.children[1].textContent=g+" / "+t; c.appendChild(d);
+  });
+  $("prog").style.width="100%";
+  refreshHome(); show("done");
+}
+$("next").onclick=()=>{i++; if(i<deck.length) render(); else finish()};
+$("btnMock").onclick=()=>start("mock");
+$("btnAll").onclick=()=>start("all");
+$("btnMissed").onclick=()=>start("missed");
+$("btnNew").onclick=()=>start("new");
+let resetArmed=null;
+$("resetSeen").onclick=()=>{
+  const b=$("resetSeen");
+  if(!resetArmed){b.textContent="Tap again to reset all "+seen.size+" seen questions";resetArmed=setTimeout(()=>{resetArmed=null;b.textContent="Reset seen questions"},4000);return}
+  clearTimeout(resetArmed);resetArmed=null;seen=new Set();saveSet(SEEN,seen);b.textContent="Reset seen questions";refreshHome();
+};
+document.querySelectorAll("[data-weak]").forEach(b=>b.onclick=()=>start("weak",b.dataset.weak));
+$("again").onclick=()=>start("mock");
+$("reviewNow").onclick=()=>start("missed");
+$("home2").onclick=()=>{refreshHome();show("home")};
+$("quit").onclick=()=>{results.length?finish():(refreshHome(),show("home"))};
+refreshHome();
+</script>
+
+</body>
+</html>
