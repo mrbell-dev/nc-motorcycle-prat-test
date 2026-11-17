@@ -576,6 +576,10 @@ function weakKeys(){
   return Object.entries(stats).filter(([k,[g,t]])=>t>0&&g/t<0.8&&Q.some(q=>tkey(q)===k))
     .sort((a,b)=>(a[1][0]/a[1][1])-(b[1][0]/b[1][1])||b[1][1]-a[1][1]).slice(0,4).map(e=>e[0]);
 }
+function topicPage(k){
+  const ns=Q.filter(q=>tkey(q)===k).map(q=>{const m=q.p.match(/p\. ?(\d+)/);return m?+m[1]:null}).filter(Boolean);
+  return ns.length?"handbook p. "+Math.min(...ns):(k.includes("NCDMV")?"NCDMV page":((Q.find(q=>tkey(q)===k)||{}).p||""));
+}
 function buildTopics(){
   const box=$("topics"); box.innerHTML="";
   CH.forEach(([ch,ss])=>{
@@ -709,7 +713,7 @@ function report(rep){
   drillKeys=weak.map(([k])=>k);
   $("weakBox").hidden=!weak.length;
   const wl=$("weakList"); wl.innerHTML="";
-  weak.slice(0,5).forEach(([k,[a,t]])=>{const d=el("div","low");d.append(el("span","",tname(k)+" (from "+START[k.split("|")[0]]+")"),el("span","",a+" / "+t));wl.appendChild(d)});
+  weak.slice(0,5).forEach(([k,[a,t]])=>{const d=el("div","low");d.append(el("span","",tname(k)+" ("+topicPage(k)+")"),el("span","",a+" / "+t));wl.appendChild(d)});
   const dn=Q.filter(q=>drillKeys.includes(tkey(q))).length;
   $("drillWeak").textContent="Drill these areas ("+plural(dn,"question")+")";
   const ml=$("missList"); ml.innerHTML="";
